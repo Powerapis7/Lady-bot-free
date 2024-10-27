@@ -28,6 +28,39 @@ Browsers,
 EyeWaSocket,
 makeInMemoryStore,
 } = require('@whiskeysockets/baileys');
+async function startBot() {
+    // Inicializa a autenticação
+    const { state, saveCreds } = await useMultiFileAuthState('auth_info');
+    const sock = makeWASocket({
+        printQRInTerminal: true,
+        auth: state,
+    });
+
+    // Salva as credenciais após a autenticação
+    sock.ev.on('creds.update', saveCreds);
+
+    // Conecta ao WhatsApp
+    sock.ev.on('connection.update', (update) => {
+        const { connection, lastDisconnect } = update;
+        if (connection === 'close') {
+            const shouldReconnect = lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut;
+            console.log('Conexão fechada devido a:', lastDisconnect.error, ', reconectando:', shouldReconnect);
+            if (shouldReconnect) {
+                startBot(); // Reinicia o bot
+            }
+        } else if (connection === 'open') {
+            console.log('Conectado ao WhatsApp!');
+        }
+    });
+
+    // Escuta mensagens recebidas
+    sock.ev.on('messages.upsert', async (m) => {
+        const msg = m.messages[0];
+        if (!msg.key.fromMe) {
+            console.log('Mensagem recebida:', msg);
+            // Aqui você pode processar a mensagem e enviar uma resposta
+        }
+    });
 
 // ──────┤MODULOS├────── //
 
@@ -16897,3 +16930,6 @@ console.log('A config foi editada, irei reiniciar...');
 process.exit()
 }
 })
+// Inicia o bot
+startBot();
+// ──────┤
