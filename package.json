@@ -18,6 +18,7 @@
     "cookie": "^0.4.1",
     "crypto": "^1.0.1",
     "openai": "",
+    "express": "",
     "escape-string-regexp": "^1.0.5",
     "events": "^3.3.0",
     "file-type": "^16.5.3",
