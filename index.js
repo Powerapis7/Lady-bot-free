@@ -61,7 +61,7 @@ async function startBot() {
             // Aqui você pode processar a mensagem e enviar uma resposta
         }
     });
-
+}
 // ──────┤MODULOS├────── //
 
 const webp_mp4 = require("./arquivos/lib/webp_mp4.js");
