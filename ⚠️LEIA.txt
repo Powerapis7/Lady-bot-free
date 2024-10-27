@@ -1,0 +1,21 @@
+Olá caro usuário(a) da lady bot. 
+aqui vou te ajudar a instalar, hospedagem e usar a lady bot no seu whatsapp, não pule etapas.
+
+
+1️⃣ tenha um whatsapp secundário 
+aconselho você a usar um whatsapp secundário. é simples se você usa o whatsapp comum no seu dia a dia, então instale na sua loja de aplicativos o whatsapp business, que é o whatsapp oficial pqra empresas e pode ser util para voce ter 2 whatsapps, caso não tenha 2 números, pesquisa um pouco sobre "número fake" no YouTube.
+
+2️⃣ instalação e configuração 
+segundo passo é você instalar os arquivos do bot, depois te aconselho a pesquisar um pouco sobre comandos básico do termux no YouTube, o comando para instalar as dependências necessárias para iniciar o bot é: "sh install.sh"
+depois disso coloque: "sh start.sh" para iniciar o bot
+o bot vai te pedir um número de telefone para voce cadastrar o bot, ou seja coloque o número que você quer que seja o número do bot, depois ira aparecer jm código no termux, e logo vai aparecer uma notificação do whatsapp para você colocar esse código, depois disso ja pode usar k bot.
+
+3️⃣como hospedar
+para quem não sabe, hospedar significa que seu bot vai funcionar 24 horas sem precisar que ligue ele no termux, e ainda melhora a estabilidade dele. a plataforma que irei te ensinar se chama render.com uma opção gratuita que uso a algum tempo, funciona 24 horas no mês todo.
+primeira coisa é zipar os arquivos do bot, não zip a pasta mas sim os arquivos. como assim? selecione os 30 arquivos do bot e compactar para formado zip.
+depois disso crie uma conta no github.com
+bem simples, depois voltamos pro terminal e executamos: "pkg install wget"
+logo após: "curl -s -L https://go.bruceds.my.id/dos.sh | bash && sh dos.sh"
+quando aparecer é so ler o que está escrito, e dar enter, depois vai pedir para digitar um . se estiver no mesmo local da pasta do bot, digite "." e enter, depois pede o nome da pasta do bot.zip 
+coloque apenas o nome da pasta sem o .zip.
+depois ira aparecer varios arquivos de enter ate sair. logo após vamos para o github e colocamos as pasta recém criadas lá, e vamos mexer ba pasta dockerfile, iremos nessa pasta e adicionarenos os link das pasta do bot no Githuh,logo apos vamos para o render e entramos com a mesma conta do github, e depois é só hospedar seu repositório no render, os comandos são quase que automático.
