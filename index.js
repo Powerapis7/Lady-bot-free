@@ -27,7 +27,7 @@ WASocket,
 Browsers,
 EyeWaSocket,
 makeInMemoryStore,
-} = require('@WhiskeySockets/baileys');
+} = require('@whiskeysockets/baileys');
 
 // ──────┤MODULOS├────── //
 
