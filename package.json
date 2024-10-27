@@ -49,8 +49,8 @@
     "yt-search": "^2.10.4"
   },
   "scripts": {
-    "start": "bash start.sh",
+    "start": "sh start.sh",
     "test": "node start.sh"
   },
-  "author": "Luan dev"
+  "author": "Luandev"
 }
