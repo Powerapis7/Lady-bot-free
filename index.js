@@ -51,7 +51,7 @@ const { getRandom} = require('./arquivos/funcoes/myfunc.js');
 
 const { exec } = require("child_process")
 
-const totalcmd = "1117"
+const totalcmd = "1125"
 
 const chalk = require('chalk');
 
@@ -9610,6 +9610,96 @@ case "cep":
     }
 }
 break;
+case "placa":
+{
+    if (!text) {
+        return reply("Você precisa fornecer uma placa para consulta.");
+    }
+
+    try {
+        const placa = text.toUpperCase().replace(/\s+/g, ''); // Normaliza o formato da placa
+        if (placa.length !== 7) {
+            return reply("Por favor, forneça uma placa válida com 7 caracteres.");
+        }
+
+        const res = await fetch(`https://world-ecletix.onrender.com/api/consultas?type=placa&query=${placa}`);
+        const apiResponse = await res.json();
+
+        if (!apiResponse || !apiResponse.status) {
+            return reply("Nenhum dado encontrado para a placa fornecida.");
+        }
+
+        const {
+            "- placa": placaInfo,
+            "- marca": marcaInfo,
+            "- modelo": modeloInfo,
+            "- ano": anoInfo,
+            "- cor": corInfo,
+            "- chassi": chassiInfo,
+            "- município": municipioInfo,
+            "- uf": ufInfo,
+            "- combustível": combustivelInfo,
+            "- cilindradas": cilindradasInfo,
+            "- segmento": segmentoInfo
+        } = apiResponse.resultado;
+
+        // Monta a mensagem excluindo dados irrelevantes
+        const message = `**Informações do Veículo - Placa ${placaInfo}:**\n` +
+                        `- Marca: ${marcaInfo}\n` +
+                        `- Modelo: ${modeloInfo}\n` +
+                        `- Ano: ${anoInfo}\n` +
+                        `- Cor: ${corInfo}\n` +
+                        `- Chassi: ${chassiInfo}\n` +
+                        `- Município: ${municipioInfo}\n` +
+                        `- UF: ${ufInfo}\n` +
+                        `- Combustível: ${combustivelInfo}\n` +
+                        `- Cilindradas: ${cilindradasInfo}\n` +
+                        `- Segmento: ${segmentoInfo}\n\n` +
+                        `- Usuário: ${pushname}\n` +
+                        `- Bot: ${botName}`;
+
+        reply(message);
+    } catch (error) {
+        console.error("Erro ao consultar a placa:", error);
+        return reply("Ocorreu um erro ao processar a solicitação.");
+    }
+}
+break;
+case "operadora":
+{
+    if (!text) {
+        return reply("Você precisa fornecer um número de telefone para consulta.");
+    }
+
+    try {
+        const telefone = text.replace(/\D/g, ''); // Remove caracteres não numéricos
+        if (telefone.length < 10 || telefone.length > 11) {
+            return reply("Por favor, forneça um número de telefone válido com 10 ou 11 dígitos.");
+        }
+
+        const res = await fetch(`https://api.zero-two.online/api/operadora?numero=55${telefone}&apikey=alucard`);
+        const apiResponse = await res.json();
+
+        if (!apiResponse || apiResponse.status !== 200) {
+            return reply("Nenhum dado encontrado para o telefone fornecido.");
+        }
+
+        const { telefone: telefoneInfo, operadora: operadoraInfo, dispositivo: dispositivoInfo, estado: estadoInfo } = apiResponse.resultado;
+
+        const message = `**Informações do Telefone ${telefoneInfo}:**\n` +
+                        `- Operadora: ${operadoraInfo}\n` +
+                        `- Dispositivo: ${dispositivoInfo}\n` +
+                        `- Estado: ${estadoInfo}\n\n` +
+                        `- Usuário: ${pushname}\n` +
+                        `- Bot: ${botName}`;
+
+        reply(message);
+    } catch (error) {
+        console.error("Erro ao consultar a operadora:", error);
+        return reply("Ocorreu um erro ao processar a solicitação.");
+    }
+}
+break;
 case "instagram2":
 case "igvideo":
 case "igvid":
@@ -11231,10 +11321,11 @@ break//by luanzin dev
         loli.sendMessage(from, { text: '🚨 Erro ao gerar a imagem.' }, { quoted: info });
     }
     break;
-    case 'Gemini':
-    case 'gemini':
+    
+   case 'Gemini':
+case 'gemini':
   if (!args[1]) {
-    return reply('🚨 Por favor, forneça uma pergunta para o Orbital IA.');
+    return reply('🚨 Por favor, forneça uma pergunta para o gemini IA.');
   }
 
   const promptOrbital = encodeURIComponent(args.slice(1).join(' '));
@@ -11244,7 +11335,7 @@ break//by luanzin dev
     const data = await response.json();
     
     if (data.result) {
-      loli.sendMessage(sender, { text: `🗣️ Resposta do Orbital IA: ${data.result}` }, { quoted: info });
+      loli.sendMessage(from, { text: `🗣️ Resposta do Gemini IA: ${data.result}` }, { quoted: info });
     } else {
       reply("🚨 Não consegui obter a resposta do Orbital IA. Tente novamente mais tarde.");
     }
@@ -11253,8 +11344,8 @@ break//by luanzin dev
     reply("🚨 Não foi possível. Tente novamente mais tarde.");
   }
   break;
-    case 'lady':
-    case 'Lady':
+case 'lady':
+case 'Lady':
   if (!args[1]) {
     return reply('🚨 Por favor, forneça uma pergunta para a lady.');
   }
@@ -11266,16 +11357,16 @@ break//by luanzin dev
     const data = await response.json();
     
     if (data.result) {
-      loli.sendMessage(sender, { text: `🗣️ Resposta da Lady: ${data.result}` }, { quoted: info });
+      loli.sendMessage(from, { text: `🗣️ Resposta da Lady: ${data.result}` }, { quoted: info });
     } else {
-      reply("🚨 Não consegui obter a resposta do Orbital IA. Tente novamente mais tarde.");
+      reply("🚨 Não consegui obter a resposta da Lady IA. Tente novamente mais tarde.");
     }
   } catch (error) {
-    console.error("Erro ao obter resposta do Orbital IA:", error);
+    console.error("Erro ao obter resposta da Lady IA:", error);
     reply("🚨 Não foi possível, Tente novamente mais tarde.");
   }
   break;
-    case 'analisaimg': //by luanzin dev
+  case 'analisaimg': //by luanzin dev
   if (!args[1] || !args[2]) {
     return reply('🚨 Por favor, forneça um prompt e uma URL de imagem. Exemplo: !analiseimg "analisar esta imagem" [URL da imagem]');
   }
@@ -11288,7 +11379,7 @@ break//by luanzin dev
     const data = await response.json();
     
     if (data.result) {
-      loli.sendMessage(sender, { text: `🖼️ Resultado da análise: ${data.result}` }, { quoted: info });
+      loli.sendMessage(from, { text: `🖼️ Resultado da análise: ${data.result}` }, { quoted: info });
     } else {
       reply("🚨 Não consegui obter a análise da imagem.");
     }
@@ -11297,7 +11388,8 @@ break//by luanzin dev
     reply("🚨 Não foi possível se conectar ao Orbital IA. Tente novamente mais tarde.");
   }
   break;
-    case 'gerarimg': // by luanzin dev
+
+case 'gerarimg': // by luanzin dev
   if (!args[1]) {
     return reply('🚨 Por favor, forneça uma descrição para gerar uma imagem.');
   }
@@ -11310,7 +11402,7 @@ break//by luanzin dev
     
     if (data.url) {
       const imageBuffer = await getBuffer(data.url);
-      loli.sendMessage(sender, { image: imageBuffer, caption: `*Resultado para: _${args.slice(1).join(' ')}_*` }, { quoted: info });
+      loli.sendMessage(from, { image: imageBuffer, caption: `*Resultado para: _${args.slice(1).join(' ')}_*` }, { quoted: info });
     } else {
       reply("🚨 Não consegui gerar a imagem.");
     }
@@ -16140,7 +16232,27 @@ loli.groupParticipantsUpdate(from, [sender], 'remove')
 }, 1000)
 }
 
+if (
+    budy.includes("Qual seu totalcmd?") ||
+    budy.includes("Qual é o seu totalcmd?") ||
+    budy.includes("Qual o seu totalcmd?") ||
+    budy.includes("totalcmd?")
+) {
+    const caption = `Olá ${pushname}, aqui estão as informações:\n` +
+                    `- Bot: ${botName}\n`+
+                    `- Dono: ${donoName}\n`+
+                    `- Versão: 4.1\n` +
+                    `- Prefix: ${prefix}\n` +
+                    `- Hora: ${hora}\n` +
+                    `- Data: ${data}\n` +
+                    `- Totalcmd: ${totalcmd}`;
 
+    await loli.sendMessage(
+        from, 
+        { text: caption, gifPlayback: true },
+        { quoted: info }
+    );
+}
 if (
     budy.includes("Qual sua versão?") ||
     budy.includes("Qual é a sua versão?") ||
