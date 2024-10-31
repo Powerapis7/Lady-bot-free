@@ -7135,7 +7135,7 @@ try {
                 method: 'POST',
                 body: form,
                 headers: {
-                    'Authorization': 'Client-ID 400116076ba4b73'
+                    'Authorization': 'Client-ID 6c10f331b789cbf'
                 }
             });
 
@@ -7153,7 +7153,7 @@ try {
         const owgi = await getFileBuffer(boij, "image");
         const imageUrl = await uploadImageToImgur(owgi);
         
-        const ryuumods = `_*Link gerado com sucesso*_⚡️\n\n${imageUrl}`;
+        const ryuumods = `_*Link gerado com sucesso*_🐞\n\n${imageUrl}`;
         reply(ryuumods);
 
     } else {
