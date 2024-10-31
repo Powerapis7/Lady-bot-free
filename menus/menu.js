@@ -545,7 +545,7 @@ return `
 │${prefix}edit15 [TXT]
 │${prefix}edit16 [TXT]
 │${prefix}edit18 [TXT]
-|${prefix}editbranca [txt]
+|${prefix}editbranca [txt] 
 |${prefix}editvermelha [TXT]
 |${prefix}editroxo [TXT]
 │${prefix}steel [TXT]
