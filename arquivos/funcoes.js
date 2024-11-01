@@ -4,7 +4,7 @@ const cfonts = require('cfonts')
 const mimetype = require('mime-types')
 const {
 downloadContentFromMessage, proto, delay, getContentType
-} = require('@WhiskeySockets/baileys')
+} = require('whiskeysockets/baileys')
 
 const getBuffer = async (url, opcoes) => {
 try {
