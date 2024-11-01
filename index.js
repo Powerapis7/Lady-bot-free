@@ -7113,7 +7113,6 @@ case 'pinterest2':
         reply("🚨 Não foi possível buscar a imagem. Tente novamente mais tarde.");
     }
     break;
-
 case 'imgpralink':
 case 'gerarlink': 
 try { 
@@ -7153,7 +7152,7 @@ try {
         const owgi = await getFileBuffer(boij, "image");
         const imageUrl = await uploadImageToImgur(owgi);
         
-        const ryuumods = `_*Link gerado com sucesso*_🐞\n\n${imageUrl}`;
+        const ryuumods = `_*Link gerado com sucesso*_⚡️\n\n${imageUrl}`;
         reply(ryuumods);
 
     } else {
@@ -7165,7 +7164,6 @@ try {
     reply('Erro ao processar a imagem e gerar o link...');
 } 
 break;
-
 case 'igstalk':
 {
   if (!isPremium) {
@@ -7888,29 +7886,22 @@ case 'beijar':
         mentions: [mentionIdBeijar]
     }, { quoted: info });
     break;
-
-
-
-case 'interro':
-case 'lolinopc':
-case 'lolifofa':
-case 'lolifofaa':
+case 'ship':
+case 'affect':
+case 'mms':
+case 'bobross':
 case 'bolsonaro':
 case 'comunismo':
-case 'affect':
-case 'bnw':
-case 'circle':
+case 'duelo':
 case 'blur':
-case 'gay':
-case 'beautiful':
+case 'circle':
 case 'del':
+case 'lgbt':
+case 'beautiful':
 case 'invert':
 case 'facepalm':
 case 'jail':
-case 'dither':
 case 'rip':
-case 'magik':
-case 'rotate':
 case 'pixelate':
 case 'sepia':
 case 'trash':
@@ -7920,32 +7911,39 @@ case 'wasted':
 
   try {
     if (isQuotedImage) {
-      boij = isQuotedImage ? JSON.parse(JSON.stringify(info).replace("quotedM", "m")).message.extendedTextMessage.contextInfo.message.imageMessage : info;
+      const boij = JSON.parse(JSON.stringify(info).replace("quotedM", "m")).message.extendedTextMessage.contextInfo.message.imageMessage;
       const fetch = require('node-fetch');
       const FormData = require('form-data');
-      const fs = require('fs');
 
-      async function uploadImageToTelegraph(imageBuffer) {
+      // Função para fazer upload da imagem no Imgur
+      async function uploadImageToImgur(imageBuffer) {
         const form = new FormData();
-        form.append('file', imageBuffer, { filename: 'image.jpg' });
+        form.append('image', imageBuffer, { filename: 'image.jpg' });
 
-        const response = await fetch('https://telegra.ph/upload', {
+        const response = await fetch('https://api.imgur.com/3/image', {
           method: 'POST',
           body: form,
+          headers: {
+            'Authorization': 'Client-ID 6c10f331b789cbf'
+          }
         });
+
         const data = await response.json();
-        if (data && data[0] && data[0].src) {
-          return 'https://telegra.ph' + data[0].src;
+        
+        // Verifica se o upload foi bem-sucedido e se a URL foi retornada
+        if (response.ok && data.data && data.data.link) {
+          return data.data.link;
         } else {
-          throw new Error('Failed to retrieve the image URL from the response.');
+          throw new Error('Falha ao obter o link da imagem a partir da resposta.');
         }
       }
 
+      // Garante que a função `getFileBuffer` está disponível
       const owgi = await getFileBuffer(boij, "image");
-      const imageUrl = await uploadImageToTelegraph(owgi);
+      const imageUrl = await uploadImageToImgur(owgi);
 
-      // Define a URL da API para o comando atual
-      const url = `https://tohka.tech/api/canvas/${command}?img=${encodeURIComponent(imageUrl)}&apikey=gxhu6`;
+      // Define a URL da API para o comando atual usando o link do Imgur
+      const url = `http://br2.bronxyshost.com:4109/api/canvas/${command}?link=${encodeURIComponent(imageUrl)}&apikey=dark_key:aGQ8xn0L&username=comefemea`;
 
       reply(`🔄 Processando a imagem ${command}...`);
 
@@ -7970,7 +7968,6 @@ case 'wasted':
     reply("🚨 Não foi possível processar a imagem. Tente novamente mais tarde.");
   }
   break;
-  
 case 'xvdownload': {
     try {
         if (!q.trim()) return reply(`- Exemplo: ${prefix}xvdownload link_do_video`);
@@ -8898,16 +8895,16 @@ case "tiktok_audio":
 
   try {
     // Solicitar o áudio diretamente da API
-    const response = await axios.get(`https://tohka.tech/api/dl/tiktok?link=${encodeURIComponent(text)}&apikey=gxhu6`);
-    const result = response.data.resultado;
+    const response = await axios.get(`https://world-ecletix.onrender.com/api/tiktok?query=${encodeURIComponent(text)}`);
+    const result = response.data;
 
     // Verificar se a resposta contém a URL do áudio
-    if (!result || !result.data || !result.data.music) {
+    if (!result || !result.audio) {
       return loli.sendMessage(from, { text: "Não foi possível obter o áudio do TikTok." }, { quoted: info });
     }
 
     // Extrair a URL do áudio
-    const audioUrl = result.data.music;
+    const audioUrl = result.audio;
 
     // Baixar o áudio do link
     const { data: audioBuffer } = await axios.get(audioUrl, { responseType: 'arraybuffer' });
@@ -8930,6 +8927,7 @@ case "tiktok_audio":
   }
 }
 break;
+
 case "tiktok_video":
 {
   if (!text) {
@@ -8942,16 +8940,16 @@ case "tiktok_video":
 
   try {
     // Solicitar o vídeo diretamente da API
-    const response = await axios.get(`https://tohka.tech/api/dl/tiktok?link=${encodeURIComponent(text)}&apikey=gxhu6`);
-    const result = response.data.resultado;
+    const response = await axios.get(`https://world-ecletix.onrender.com/api/tiktok?query=${encodeURIComponent(text)}`);
+    const result = response.data;
 
     // Verificar se a resposta contém a URL do vídeo
-    if (!result || !result.data || !result.data.play) {
+    if (!result || !result.videoOriginal) {
       return loli.sendMessage(from, { text: "Não foi possível obter o vídeo do TikTok." }, { quoted: info });
     }
 
     // Extrair a URL do vídeo
-    const videoUrl = result.data.play;
+    const videoUrl = result.videoOriginal;
 
     // Baixar o vídeo do link
     const { data: videoBuffer } = await axios.get(videoUrl, { responseType: 'arraybuffer' });
